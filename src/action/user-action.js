@@ -13,7 +13,7 @@ export const logout = () => (dispatch) => {
   document.location.href = "/login";
 };
 
-export const login = (email, password) => async (dispatch) => {
+export const login = (userName, password) => async (dispatch) => {
   try {
     dispatch({
       type: USER_LOGIN_REQUEST,
@@ -27,7 +27,7 @@ export const login = (email, password) => async (dispatch) => {
 
     const { data } = await axios.post(
       process.env.REACT_APP_BACKEND_URL + "user/login",
-      { email, password },
+      { userName, password },
       config
     );
     dispatch({
@@ -35,7 +35,7 @@ export const login = (email, password) => async (dispatch) => {
       payload: data,
     });
 
-    localStorage.setItem("orjeenUserInfo", JSON.stringify(data));
+    localStorage.setItem("orjeenUserLoginInfo", JSON.stringify(data));
   } catch (error) {
     dispatch({
       type: USER_LOGIN_FAIL,
