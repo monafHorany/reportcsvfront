@@ -27,7 +27,7 @@ const LoginScreen = ({ location, history }) => {
   const classes = useStyles();
   const dispatch = useDispatch();
   const userLogin = useSelector((state) => state.userLogin);
-  const { userInfo, error } = userLogin;
+  const { userInfo } = userLogin;
 
   const formSubimt = (e) => {
     e.preventDefault();
