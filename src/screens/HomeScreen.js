@@ -30,12 +30,8 @@ const HomeScreen = ({ history }) => {
     error: statusError,
   } = statusReducer;
   console.log(statusloading, statusSuccess, statusError);
-  const [selectedFromDate, setSelectedFromDate] = useState(
-    new Date().toLocaleDateString()
-  );
-  const [selectedToDate, setSelectedToDate] = useState(
-    new Date().toLocaleDateString()
-  );
+  const [selectedFromDate, setSelectedFromDate] = useState(new Date());
+  const [selectedToDate, setSelectedToDate] = useState(new Date());
 
   const [ids, setIds] = useState("");
   const [open, setOpen] = useState(false);
@@ -44,7 +40,8 @@ const HomeScreen = ({ history }) => {
   // const handleClick = () => {
   //   setOpen(true);
   // };
-
+  console.log(selectedFromDate);
+  console.log(selectedToDate);
   const handleClose = (event, reason) => {
     if (reason === "clickaway") {
       return;
@@ -74,12 +71,10 @@ const HomeScreen = ({ history }) => {
                     margin="normal"
                     id="date-picker-dialog"
                     label="From Date"
-                    format="dd/MM/yyyy"
+                    format="yyyy-MM-dd"
                     value={selectedFromDate}
                     maxDate={new Date().toLocaleString()}
-                    onChange={(date) =>
-                      setSelectedFromDate(new Date(date).toLocaleDateString())
-                    }
+                    onChange={(date) => setSelectedFromDate(date)}
                     KeyboardButtonProps={{
                       "aria-label": "change date",
                     }}
@@ -90,12 +85,10 @@ const HomeScreen = ({ history }) => {
                     margin="normal"
                     id="date-picker-dialog"
                     label="To Data (not included)"
-                    format="dd/MM/yyyy"
+                    format="yyyy-MM-dd"
                     value={selectedToDate}
                     maxDate={new Date().toISOString()}
-                    onChange={(date) =>
-                      setSelectedToDate(new Date(date).toLocaleDateString())
-                    }
+                    onChange={(date) => setSelectedToDate(date)}
                     KeyboardButtonProps={{
                       "aria-label": "change date",
                     }}
