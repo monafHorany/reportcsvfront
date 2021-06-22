@@ -5,13 +5,12 @@ import TextareaAutosize from "@material-ui/core/TextareaAutosize";
 import DateFnsUtils from "@date-io/date-fns";
 import Snackbar from "@material-ui/core/Snackbar";
 import MuiAlert from "@material-ui/lab/Alert";
-import { makeStyles } from "@material-ui/core/styles";
 import {
   MuiPickersUtilsProvider,
   KeyboardDatePicker,
 } from "@material-ui/pickers";
 import { Button } from "@material-ui/core";
-import { getReport } from "../action/report-action";
+import { getRefundReport, getSaleReport } from "../action/report-action";
 import { changeStatus } from "../action/order";
 
 function Alert(props) {
@@ -21,8 +20,10 @@ function Alert(props) {
 const HomeScreen = ({ history }) => {
   const userLogin = useSelector((state) => state.userLogin);
   const { userInfo } = userLogin;
-  const reportReducer = useSelector((state) => state.report);
-  const { loading, error } = reportReducer;
+  const saleReportReducer = useSelector((state) => state.saleReport);
+  const { loading, error } = saleReportReducer;
+  const refundReportReducer = useSelector((state) => state.refundReport);
+  const { loading: refundLoading, error: refundError } = refundReportReducer;
   const statusReducer = useSelector((state) => state.status);
   const {
     loading: statusloading,
@@ -30,18 +31,18 @@ const HomeScreen = ({ history }) => {
     error: statusError,
   } = statusReducer;
   console.log(statusloading, statusSuccess, statusError);
-  const [selectedFromDate, setSelectedFromDate] = useState(new Date());
-  const [selectedToDate, setSelectedToDate] = useState(new Date());
+  const [selectedSaleFromDate, setSelectedSaleFromDate] = useState(new Date());
+  const [selectedSaleToDate, setSelectedSaleToDate] = useState(new Date());
+
+  const [selectedRefundFromDate, setSelectedRefundFromDate] = useState(
+    new Date()
+  );
+  const [selectedRefundToDate, setSelectedRefundToDate] = useState(new Date());
 
   const [ids, setIds] = useState("");
   const [open, setOpen] = useState(false);
   const dispatch = useDispatch();
 
-  // const handleClick = () => {
-  //   setOpen(true);
-  // };
-  console.log(selectedFromDate);
-  console.log(selectedToDate);
   const handleClose = (event, reason) => {
     if (reason === "clickaway") {
       return;
@@ -72,9 +73,9 @@ const HomeScreen = ({ history }) => {
                     id="date-picker-dialog"
                     label="From Date"
                     format="yyyy-MM-dd"
-                    value={selectedFromDate}
+                    value={selectedSaleFromDate}
                     maxDate={new Date().toLocaleString()}
-                    onChange={(date) => setSelectedFromDate(date)}
+                    onChange={(date) => setSelectedSaleFromDate(date)}
                     KeyboardButtonProps={{
                       "aria-label": "change date",
                     }}
@@ -86,9 +87,9 @@ const HomeScreen = ({ history }) => {
                     id="date-picker-dialog"
                     label="To Data (not included)"
                     format="yyyy-MM-dd"
-                    value={selectedToDate}
+                    value={selectedSaleToDate}
                     maxDate={new Date().toISOString()}
-                    onChange={(date) => setSelectedToDate(date)}
+                    onChange={(date) => setSelectedSaleToDate(date)}
                     KeyboardButtonProps={{
                       "aria-label": "change date",
                     }}
@@ -99,13 +100,66 @@ const HomeScreen = ({ history }) => {
                   variant="contained"
                   color="primary"
                   onClick={() =>
-                    dispatch(getReport(selectedFromDate, selectedToDate))
+                    dispatch(
+                      getSaleReport(selectedSaleFromDate, selectedSaleToDate)
+                    )
                   }
                   disabled={loading}
                 >
-                  export Csv
+                  export Sale Csv
                 </Button>
                 {error && <div>{error}</div>}
+              </Grid>
+            </Grid>
+          </Grid>
+          <Grid container style={{ marginTop: "10%" }}>
+            <Grid item sm={12} md={12} lg={12} xl={12}>
+              <Grid container justify="center" spacing={2}>
+                <Grid item>
+                  <KeyboardDatePicker
+                    margin="normal"
+                    id="date-picker-dialog"
+                    label="From Date"
+                    format="yyyy-MM-dd"
+                    value={selectedRefundFromDate}
+                    maxDate={new Date().toLocaleString()}
+                    onChange={(date) => setSelectedRefundFromDate(date)}
+                    KeyboardButtonProps={{
+                      "aria-label": "change date",
+                    }}
+                  />
+                </Grid>
+                <Grid item>
+                  <KeyboardDatePicker
+                    margin="normal"
+                    id="date-picker-dialog"
+                    label="To Data (not included)"
+                    format="yyyy-MM-dd"
+                    value={selectedRefundToDate}
+                    maxDate={new Date().toISOString()}
+                    onChange={(date) => setSelectedRefundToDate(date)}
+                    KeyboardButtonProps={{
+                      "aria-label": "change date",
+                    }}
+                  />
+                </Grid>
+                <Button
+                  size="small"
+                  variant="contained"
+                  color="primary"
+                  onClick={() =>
+                    dispatch(
+                      getRefundReport(
+                        selectedRefundFromDate,
+                        selectedRefundToDate
+                      )
+                    )
+                  }
+                  disabled={refundLoading}
+                >
+                  export Refund Csv
+                </Button>
+                {refundError && <div>{refundError}</div>}
               </Grid>
             </Grid>
           </Grid>
