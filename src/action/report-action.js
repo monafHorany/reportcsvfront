@@ -9,15 +9,19 @@ import {
 } from "../constants/report-constant";
 import { logout } from "./user-action";
 
-export const getSaleReport = (from, to) => async (dispatch) => {
+export const getSaleReport = (from, to) => async (dispatch, getState) => {
   try {
     dispatch({
       type: SALE_REPORT_REQUEST,
     });
+    const {
+      userLogin: { userInfo },
+    } = getState();
 
     const config = {
       headers: {
         "Content-Type": "application/json",
+        Authorization: `Bearer ${userInfo.token}`,
       },
     };
 
@@ -50,15 +54,19 @@ export const getSaleReport = (from, to) => async (dispatch) => {
     }
   }
 };
-export const getRefundReport = (from, to) => async (dispatch) => {
+export const getRefundReport = (from, to) => async (dispatch, getState) => {
   try {
     dispatch({
       type: REFUND_REPORT_REQUEST,
     });
+    const {
+      userLogin: { userInfo },
+    } = getState();
 
     const config = {
       headers: {
         "Content-Type": "application/json",
+        Authorization: `Bearer ${userInfo.token}`,
       },
     };
 

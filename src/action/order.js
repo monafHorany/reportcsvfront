@@ -6,15 +6,20 @@ import {
 } from "../constants/order";
 import { logout } from "./user-action";
 
-export const changeStatus = (ids) => async (dispatch) => {
+export const changeStatus = (ids) => async (dispatch, getState) => {
   try {
     dispatch({
       type: ORDER_STATUS_REQUEST,
     });
 
+    const {
+      userLogin: { userInfo },
+    } = getState();
+
     const config = {
       headers: {
         "Content-Type": "application/json",
+        Authorization: `Bearer ${userInfo.token}`,
       },
     };
 

@@ -7,7 +7,7 @@ import {
 import axios from "axios";
 
 export const logout = () => (dispatch) => {
-  localStorage.removeItem("orjeenUserInfo");
+  localStorage.removeItem("orjeenUserLoginInfo");
   dispatch({ type: USER_LOGOUT });
 
   document.location.href = "/login";
