@@ -12,6 +12,7 @@ import {
 import { Button } from "@material-ui/core";
 import { getRefundReport, getSaleReport } from "../action/report-action";
 import { changeStatus } from "../action/order";
+import { changePrice } from "../action/price";
 
 function Alert(props) {
   return <MuiAlert elevation={6} variant="filled" {...props} />;
@@ -40,6 +41,8 @@ const HomeScreen = ({ history }) => {
   const [selectedRefundToDate, setSelectedRefundToDate] = useState(new Date());
 
   const [ids, setIds] = useState("");
+  const [productIds, setproductIds] = useState("");
+  const [prices, setPrices] = useState("");
   const [open, setOpen] = useState(false);
   const dispatch = useDispatch();
 
@@ -195,35 +198,100 @@ const HomeScreen = ({ history }) => {
         >
           Produced By <em>Monaf Horany</em>
         </header>
-        <MuiPickersUtilsProvider utils={DateFnsUtils}>
-          <Grid container style={{ marginTop: "10%" }}>
-            <Grid item sm={12} md={12} lg={12} xl={12}>
-              <Grid container justify="center" spacing={3}>
-                <Grid item>
-                  <TextareaAutosize
-                    rowsMin={5}
-                    cols={40}
-                    value={ids}
-                    onChange={(e) => setIds(e.target.value)}
-                    placeholder="Paste Id's"
-                  />
-                  {/* </Grid>
+        <Grid container style={{ marginTop: "10%" }}>
+          <Grid item sm={12} md={12} lg={12} xl={12}>
+            <Grid container justify="center" spacing={3}>
+              <Grid item>
+                <TextareaAutosize
+                  rowsMin={5}
+                  cols={40}
+                  value={ids}
+                  onChange={(e) => setIds(e.target.value)}
+                  placeholder="Paste Id's"
+                />
+                {/* </Grid>
                 <Grid item> */}
-                  <Button
-                    size="small"
-                    style={{ width: "71%" }}
-                    variant="contained"
-                    color="primary"
-                    onClick={() => dispatch(changeStatus(ids))}
-                    disabled={loading}
-                  >
-                    change status{" "}
-                  </Button>
-                </Grid>
+                <Button
+                  size="small"
+                  style={{ width: "71%" }}
+                  variant="contained"
+                  color="primary"
+                  onClick={() => dispatch(changeStatus(ids))}
+                  disabled={loading}
+                >
+                  change status{" "}
+                </Button>
               </Grid>
             </Grid>
           </Grid>
-        </MuiPickersUtilsProvider>
+        </Grid>
+        <Snackbar open={open} autoHideDuration={3000} onClose={handleClose}>
+          <Alert onClose={handleClose} severity="success">
+            done!{" "}
+          </Alert>
+        </Snackbar>
+      </React.Fragment>
+    );
+  } else if (userInfo && userInfo.role === "productmanager") {
+    return (
+      <React.Fragment>
+        <header
+          style={{
+            position: "sticky",
+            textAlign: "center",
+            backgroundColor: "#303F9F",
+            color: "#FFF",
+            padding: "1vw",
+            fontFamily: "cursive",
+            fontSize: "1.1vw",
+          }}
+        >
+          Produced By <em>Monaf Horany</em>
+        </header>
+        {/* <MuiPickersUtilsProvider utils={DateFnsUtils}> */}
+        <Grid container style={{ marginTop: "5vmax" }}>
+          <Grid item sm={12} md={12} lg={12} xl={12}>
+            <Grid
+              container
+              justify="center"
+              direction="column"
+              alignContent="center"
+              alignItems="center"
+              spacing={10}
+            >
+              <Grid item>
+                <TextareaAutosize
+                  rowsMin={5}
+                  cols={40}
+                  value={productIds}
+                  onChange={(e) => setproductIds(e.target.value)}
+                  placeholder="Paste Id's"
+                />
+              </Grid>
+              <Grid item>
+                <TextareaAutosize
+                  rowsMin={5}
+                  cols={40}
+                  value={prices}
+                  onChange={(e) => setPrices(e.target.value)}
+                  placeholder="Paste prices"
+                />
+              </Grid>
+              <Grid item>
+                <Button
+                  size="large"
+                  variant="outlined"
+                  color="primary"
+                  onClick={() => dispatch(changePrice(productIds, prices))}
+                  disabled={loading}
+                >
+                  Change Prices{" "}
+                </Button>
+              </Grid>
+            </Grid>
+          </Grid>
+        </Grid>
+        {/* </MuiPickersUtilsProvider> */}
 
         <Snackbar open={open} autoHideDuration={3000} onClose={handleClose}>
           <Alert onClose={handleClose} severity="success">
