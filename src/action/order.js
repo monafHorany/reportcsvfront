@@ -12,14 +12,14 @@ export const changeStatus = (ids, status) => async (dispatch, getState) => {
       type: ORDER_STATUS_REQUEST,
     });
 
-    // const {
-    //   userLogin: { userInfo },
-    // } = getState();
+    const {
+      userLogin: { userInfo },
+    } = getState();
 
     const config = {
       headers: {
         "Content-Type": "application/json",
-        // Authorization: `Bearer ${userInfo.token}`,
+        Authorization: `Bearer ${userInfo.token}`,
       },
     };
 
