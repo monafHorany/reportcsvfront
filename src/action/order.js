@@ -6,26 +6,26 @@ import {
 } from "../constants/order";
 import { logout } from "./user-action";
 
-export const changeStatus = (ids) => async (dispatch, getState) => {
+export const changeStatus = (ids, status) => async (dispatch, getState) => {
   try {
     dispatch({
       type: ORDER_STATUS_REQUEST,
     });
 
-    const {
-      userLogin: { userInfo },
-    } = getState();
+    // const {
+    //   userLogin: { userInfo },
+    // } = getState();
 
     const config = {
       headers: {
         "Content-Type": "application/json",
-        Authorization: `Bearer ${userInfo.token}`,
+        // Authorization: `Bearer ${userInfo.token}`,
       },
     };
 
     const { data } = await axios.post(
       process.env.REACT_APP_BACKEND_URL + "order/statusHandler",
-      { ids },
+      { ids, status },
       config
     );
 
