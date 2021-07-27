@@ -96,7 +96,7 @@ const HomeScreen = ({ history }) => {
             fontSize: "1.1vw",
           }}
         >
-          Produced By <em>Monaf Horany</em>
+          Produced By <em>ŞAHİN HORANY</em>
         </header>
         <MuiPickersUtilsProvider utils={DateFnsUtils}>
           <Grid container style={{ marginTop: "10%" }}>
@@ -215,7 +215,7 @@ const HomeScreen = ({ history }) => {
             fontSize: "1.1vw",
           }}
         >
-          Produced By <em>Monaf Horany</em>
+          Produced By <em>ŞAHİN HORANY</em>
         </header>
         <Grid
           container
@@ -327,7 +327,7 @@ const HomeScreen = ({ history }) => {
             fontSize: "1.1vw",
           }}
         >
-          Produced By <em>Monaf Horany</em>
+          Produced By <em>ŞAHİN HORANY</em>
         </header>
         {/* <MuiPickersUtilsProvider utils={DateFnsUtils}> */}
         <Grid container style={{ marginTop: "5vmax" }}>
