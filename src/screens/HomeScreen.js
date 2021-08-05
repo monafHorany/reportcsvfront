@@ -236,6 +236,12 @@ const HomeScreen = ({ history }) => {
                 onChange={(e) => setStatus(e.target.value)}
               >
                 <FormControlLabel
+                  value="processing"
+                  control={<Radio style={{ color: "darkblue" }} />}
+                  label="processing"
+                  labelPlacement="bottom"
+                />
+                <FormControlLabel
                   value="completed"
                   control={<Radio style={{ color: "green" }} />}
                   label="completed"
