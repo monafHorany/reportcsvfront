@@ -5,6 +5,7 @@ import { userLoginReducer } from "./reducer/userReducers";
 import {
   refundReportReducer,
   saleReportReducer,
+  shippedReportReducer,
 } from "./reducer/report-reducer";
 import { changeStatusReducer } from "./reducer/order";
 
@@ -14,6 +15,7 @@ const reducer = combineReducers({
   userLogin: userLoginReducer,
   saleReport: saleReportReducer,
   refundReport: refundReportReducer,
+  shippedReport: shippedReportReducer,
   status: changeStatusReducer,
 });
 

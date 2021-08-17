@@ -18,7 +18,11 @@ import {
   KeyboardDatePicker,
 } from "@material-ui/pickers";
 import { Button } from "@material-ui/core";
-import { getRefundReport, getSaleReport } from "../action/report-action";
+import {
+  getRefundReport,
+  getSaleReport,
+  getShippedReport,
+} from "../action/report-action";
 import { changeStatus } from "../action/order";
 import { changePrice } from "../action/price";
 
@@ -39,6 +43,8 @@ const HomeScreen = ({ history }) => {
   const { loading, error } = saleReportReducer;
   const refundReportReducer = useSelector((state) => state.refundReport);
   const { loading: refundLoading, error: refundError } = refundReportReducer;
+  const shippedReportReducer = useSelector((state) => state.shippedReport);
+  const { loading: shippedLoading, error: shippedError } = shippedReportReducer;
   const statusReducer = useSelector((state) => state.status);
   const {
     loading: statusloading,
@@ -53,6 +59,12 @@ const HomeScreen = ({ history }) => {
     new Date()
   );
   const [selectedRefundToDate, setSelectedRefundToDate] = useState(new Date());
+  const [selectedShippedFromDate, setSelectedShippedFromDate] = useState(
+    new Date()
+  );
+  const [selectedShippedToDate, setSelectedShippedToDate] = useState(
+    new Date()
+  );
 
   const [ids, setIds] = useState("");
   const [status, setStatus] = useState("completed");
@@ -195,6 +207,57 @@ const HomeScreen = ({ history }) => {
                   export Refund Csv
                 </Button>
                 {refundError && <div>{refundError}</div>}
+              </Grid>
+            </Grid>
+          </Grid>
+          <Grid container style={{ marginTop: "10%" }}>
+            <Grid item sm={12} md={12} lg={12} xl={12}>
+              <Grid container justify="center" spacing={2}>
+                <Grid item>
+                  <KeyboardDatePicker
+                    margin="normal"
+                    id="date-picker-dialog"
+                    label="From Date"
+                    format="yyyy-MM-dd"
+                    value={selectedShippedFromDate}
+                    maxDate={new Date().toLocaleString()}
+                    onChange={(date) => setSelectedShippedFromDate(date)}
+                    KeyboardButtonProps={{
+                      "aria-label": "change date",
+                    }}
+                  />
+                </Grid>
+                <Grid item>
+                  <KeyboardDatePicker
+                    margin="normal"
+                    id="date-picker-dialog"
+                    label="To Data (not included)"
+                    format="yyyy-MM-dd"
+                    value={selectedShippedToDate}
+                    maxDate={new Date().toISOString()}
+                    onChange={(date) => setSelectedShippedToDate(date)}
+                    KeyboardButtonProps={{
+                      "aria-label": "change date",
+                    }}
+                  />
+                </Grid>
+                <Button
+                  size="small"
+                  variant="contained"
+                  color="primary"
+                  onClick={() =>
+                    dispatch(
+                      getShippedReport(
+                        selectedShippedFromDate,
+                        selectedShippedToDate
+                      )
+                    )
+                  }
+                  disabled={shippedLoading}
+                >
+                  export shipped Csv
+                </Button>
+                {refundError && <div>{shippedError}</div>}
               </Grid>
             </Grid>
           </Grid>

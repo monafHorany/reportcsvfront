@@ -6,6 +6,9 @@ import {
   REFUND_REPORT_REQUEST,
   REFUND_REPORT_SUCCESS,
   REFUND_REPORT_FAIL,
+  SHIPPED_REPORT_REQUEST,
+  SHIPPED_REPORT_SUCCESS,
+  SHIPPED_REPORT_FAIL,
 } from "../constants/report-constant";
 import { logout } from "./user-action";
 
@@ -86,6 +89,52 @@ export const getRefundReport = (from, to) => async (dispatch, getState) => {
   } catch (error) {
     dispatch({
       type: REFUND_REPORT_FAIL,
+      payload: error.response.data,
+    });
+    if (
+      error.response.data === "Not authorized, token failed, Logging you out" ||
+      error.response.data === "Not authorized, no token, Logging you out" ||
+      error.response.data === "Not authorized as an admin, Logging you out" ||
+      error.response.data === "Not authorized as an editor, Logging you out"
+    ) {
+      setTimeout(() => {
+        dispatch(logout());
+      }, 3000);
+    }
+  }
+};
+export const getShippedReport = (from, to) => async (dispatch, getState) => {
+  try {
+    dispatch({
+      type: SHIPPED_REPORT_REQUEST,
+    });
+    const {
+      userLogin: { userInfo },
+    } = getState();
+
+    const config = {
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${userInfo.token}`,
+      },
+    };
+
+    const { data } = await axios.post(
+      process.env.REACT_APP_BACKEND_URL +
+        "order/fetchAllShippedOrderFromWoocommerce",
+      { from, to },
+      config
+    );
+    if (data) {
+      window.location = `${process.env.REACT_APP_BACKEND_URL}order/shippedDownload`;
+    }
+    dispatch({
+      type: SHIPPED_REPORT_SUCCESS,
+      payload: data,
+    });
+  } catch (error) {
+    dispatch({
+      type: SHIPPED_REPORT_FAIL,
       payload: error.response.data,
     });
     if (
